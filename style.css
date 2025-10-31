@@ -219,6 +219,10 @@ h1, h2, h3 {
 
     .project-details {
         width: 100%;
+        /* 🎯 CORREÇÃO PARA CENTRALIZAR O CONTEÚDO DENTRO DO BLOCO DE DETALHES */
+        display: flex;
+        flex-direction: column;
+        align-items: center; 
     }
 
     .carousel-container {
@@ -267,7 +271,7 @@ h1, h2, h3 {
     background: none; 
     border: none;
     padding: 0;
-    margin: 0; /* O margin: 0 15px; foi substituído pelo 'gap' no social-links */
+    margin: 0;
     display: inline-block;
     
     /* ESTILIZAÇÃO DO ÍCONE */
@@ -279,7 +283,7 @@ h1, h2, h3 {
 }
 
 .social-links a:hover {
-    /* 3. EFEITO DE "VIR PARA FRENTE" */
+    /* 3. EFEITO de "VIR PARA FRENTE" */
     transform: scale(1.2); 
     /* Cor de destaque ao passar o mouse */
     color: var(--accent-color);
