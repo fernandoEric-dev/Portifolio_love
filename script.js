@@ -1,62 +1,98 @@
-// script.js
+/* script.js */
 
-document.addEventListener('DOMContentLoaded', () => {
-    const track = document.querySelector('.carousel-track');
-    const container = document.querySelector('.carousel-container');
-    const items = Array.from(track.children);
-    const nextButton = document.querySelector('.carousel-button.next');
-    const prevButton = document.querySelector('.carousel-button.prev');
+const track = document.querySelector('.carousel-track');
+const items = document.querySelectorAll('.carousel-item');
+const prevButton = document.querySelector('.carousel-button.prev');
+const nextButton = document.querySelector('.carousel-button.next');
 
-    let currentItemIndex = 0;
+let currentIndex = 0;
+// Variável de estado para rastrear o toque
+let startTouchX = 0; 
 
-    // Função para mover o track (o slide) para que o item atual fique visível e alinhado.
-    const moveToSlide = (track, currentItem, index) => {
-        // Largura do item (100% do container)
-        const itemWidth = currentItem.offsetWidth;
+// ----------------------------------------------------
+// Função de Movimento (MANTIDA, COM A DETECÇÃO DE GAP)
+// ----------------------------------------------------
+function moveToSlide(index) {
+    if (index < 0) {
+        currentIndex = items.length - 1;
+    } else if (index >= items.length) {
+        currentIndex = 0;
+    } else {
+        currentIndex = index;
+    }
 
-        // Largura do gap entre os itens (lê o valor do CSS)
-        const gapStyle = getComputedStyle(track).gap;
-        const gap = parseFloat(gapStyle || '0px'); 
-        
-        // Posição de deslocamento do início do track
-        // É a soma da largura do item + o gap para todos os itens anteriores.
-        const totalDistance = (itemWidth + gap) * index;
-
-        // O padding-left do container (50px no desktop, 10px no mobile) precisa ser
-        // adicionado ao track para que o primeiro item comece alinhado à esquerda da "janela" do carrossel.
-        const containerPaddingLeft = parseFloat(getComputedStyle(container).paddingLeft);
-        
-        // A posição alvo move o track para a esquerda pela distância total,
-        // mas compensa o padding esquerdo do container.
-        const targetPosition = -(totalDistance - containerPaddingLeft);
-        
-        track.style.transform = 'translateX(' + targetPosition + 'px)';
-    };
-
-    // Função auxiliar para recalcular a posição em redimensionamentos
-    const updatePosition = () => {
-        // Garante que o item atual seja centralizado após um redimensionamento
-        moveToSlide(track, items[currentItemIndex], currentItemIndex);
-    };
+    const itemWidth = items[0].offsetWidth;
+    // Tenta detectar o gap. 40px no desktop e 20px no mobile (do seu CSS)
+    const currentGap = window.innerWidth <= 767 ? 20 : 40; 
     
-    // Inicializa e trata redimensionamento
-    updatePosition();
-    window.addEventListener('resize', updatePosition);
+    // Calcula o deslocamento total (Largura do item + o gap)
+    const totalMove = currentIndex * (itemWidth + currentGap); 
+    
+    track.style.transform = `translateX(-${totalMove}px)`;
+}
 
 
-    // Navegação para o próximo item
-    nextButton.addEventListener('click', () => {
-        if (currentItemIndex < items.length - 1) {
-             currentItemIndex++;
-             moveToSlide(track, items[currentItemIndex], currentItemIndex);
-        }
-    });
+// ----------------------------------------------------
+// 🚨 CORREÇÃO ROBUSTA PARA O SWIPE (Mobile)
+// ----------------------------------------------------
 
-    // Navegação para o item anterior
-    prevButton.addEventListener('click', () => {
-        if (currentItemIndex > 0) {
-            currentItemIndex--;
-            moveToSlide(track, items[currentItemIndex], currentItemIndex);
-        }
-    });
+// 1. Início do toque
+track.addEventListener('touchstart', (e) => {
+    // Captura a posição X inicial do toque no primeiro ponto de toque
+    startTouchX = e.touches[0].clientX;
+    // Opcional, para garantir que o scroll vertical não interrompa:
+    track.style.cursor = 'grabbing';
+});
+
+// 2. Movimento do toque (opcional, para visualização, mas melhora a experiência)
+// track.addEventListener('touchmove', (e) => {
+//     if (startTouchX === null) return;
+//     // Você pode adicionar um pequeno "arrastar" visual aqui se quiser
+// });
+
+// 3. Fim do toque
+track.addEventListener('touchend', (e) => {
+    // Se não há um toque inicial capturado, saia.
+    if (startTouchX === null) return; 
+
+    // Posição X final do toque (usa changedTouches no touchend)
+    const endTouchX = e.changedTouches[0].clientX;
+    
+    // Calcula a diferença
+    const diff = startTouchX - endTouchX;
+
+    // Limiar de deslize (threshold) em pixels
+    const swipeThreshold = 50; 
+
+    if (diff > swipeThreshold) {
+        // Deslize para a ESQUERDA (mover para o próximo slide)
+        moveToSlide(currentIndex + 1);
+    } else if (diff < -swipeThreshold) {
+        // Deslize para a DIREITA (mover para o slide anterior)
+        moveToSlide(currentIndex - 1);
+    }
+
+    // Reseta a variável de toque
+    startTouchX = null;
+    track.style.cursor = 'grab';
+});
+
+// ----------------------------------------------------
+// Lógica dos Botões (MANTIDA)
+// ----------------------------------------------------
+
+prevButton.addEventListener('click', () => {
+    moveToSlide(currentIndex - 1);
+});
+
+nextButton.addEventListener('click', () => {
+    moveToSlide(currentIndex + 1);
+});
+
+
+// Inicializa e lida com redimensionamento
+moveToSlide(0);
+
+window.addEventListener('resize', () => {
+    moveToSlide(currentIndex);
 });
