@@ -124,6 +124,8 @@ h1, h2, h3 {
 
 .carousel-track {
     display: flex;
+    /* 🎯 AJUSTE NOVO: Adiciona espaçamento entre os slides, em vez de usar margens no item */
+    gap: 40px; 
     transition: transform 0.5s ease-in-out; /* Transição suave do slide */
 }
 
@@ -138,7 +140,8 @@ h1, h2, h3 {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     text-align: left;
-    margin: 0 20px;
+    /* ❌ REMOVIDO: A margem lateral quebra a centralização */
+    margin: 0; 
     padding: 20px;
 }
 
@@ -206,8 +209,14 @@ h1, h2, h3 {
     .carousel-item {
         flex-direction: column; /* Empilha a imagem e a descrição */
         text-align: center;
+        /* ❌ REMOVIDO: Margem lateral desnecessária no mobile */
         margin: 10px 0;
         padding: 15px;
+    }
+    
+    .carousel-track {
+        /* Ajuste o gap para mobile, se desejar */
+        gap: 20px; 
     }
 
     .carousel-item img {
@@ -226,13 +235,13 @@ h1, h2, h3 {
     }
 
     .carousel-container {
+        /* Retorna o padding lateral para os botões */
         padding: 0 10px;
     }
 
     .carousel-button {
         padding: 10px 5px;
         font-size: 1em;
-        /* Esconde em telas muito pequenas ou ajusta a posição */
         top: auto;
         bottom: 0;
         transform: none;
