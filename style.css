@@ -53,8 +53,8 @@ h1, h2, h3 {
 
 .profile-image-round {
     /* **FOTO DE PERFIL MAIOR (MANTIDA)** */
-    width: 250px; 
-    height: 250px;
+    width: 350px; 
+    height: 350px;
     border-radius: 50%;
     object-fit: cover;
     border: 6px solid var(--primary-color);
