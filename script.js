@@ -6,13 +6,15 @@ const prevButton = document.querySelector('.carousel-button.prev');
 const nextButton = document.querySelector('.carousel-button.next');
 
 let currentIndex = 0;
-// Variável de estado para rastrear o toque
-let startTouchX = null; // Alterado para null para lógica do touchend
+let startTouchX = null; 
 
 // ----------------------------------------------------
-// Função de Movimento (AJUSTADA PARA O NOVO CÁLCULO DE GAP)
+// Função de Movimento
 // ----------------------------------------------------
 function moveToSlide(index) {
+    if (items.length === 0) return; // Garante que há slides
+
+    // Lógica de Loop Infinito
     if (index < 0) {
         currentIndex = items.length - 1;
     } else if (index >= items.length) {
@@ -21,10 +23,10 @@ function moveToSlide(index) {
         currentIndex = index;
     }
 
-    // 🚨 AJUSTE NO JS: Determinar a largura do item e o GAP
+    // 🚨 Cálculo Dinâmico da Largura e GAP:
     const itemWidth = items[0].offsetWidth;
     
-    // No CSS, o gap é 40px no desktop (> 767px) e 0px no mobile (<= 767px)
+    // O GAP é 40px no desktop e 0px no mobile (conforme o CSS)
     const currentGap = window.innerWidth <= 767 ? 0 : 40; 
     
     // Calcula o deslocamento total (Largura do item + o gap)
@@ -33,9 +35,16 @@ function moveToSlide(index) {
     track.style.transform = `translateX(-${totalMove}px)`;
 }
 
+// ----------------------------------------------------
+// Função para lidar com o redimensionamento
+// ----------------------------------------------------
+function handleResize() {
+    // Garante que o carrossel se ajuste à nova largura e gap (desktop/mobile)
+    moveToSlide(currentIndex);
+}
 
 // ----------------------------------------------------
-// Lógica do Swipe (MANTIDA - ESTÁ ROBUSTA)
+// Lógica do Swipe (MANTIDA)
 // ----------------------------------------------------
 
 // 1. Início do toque
@@ -45,29 +54,21 @@ track.addEventListener('touchstart', (e) => {
     track.style.cursor = 'grabbing';
 });
 
-// 3. Fim do toque
+// 2. Fim do toque
 track.addEventListener('touchend', (e) => {
-    // Se não há um toque inicial capturado, saia.
     if (startTouchX === null) return; 
 
-    // Posição X final do toque (usa changedTouches no touchend)
+    // Posição X final
     const endTouchX = e.changedTouches[0].clientX;
-    
-    // Calcula a diferença
     const diff = startTouchX - endTouchX;
-
-    // Limiar de deslize (threshold) em pixels
     const swipeThreshold = 50; 
 
     if (diff > swipeThreshold) {
-        // Deslize para a ESQUERDA (mover para o próximo slide)
         moveToSlide(currentIndex + 1);
     } else if (diff < -swipeThreshold) {
-        // Deslize para a DIREITA (mover para o slide anterior)
         moveToSlide(currentIndex - 1);
     }
 
-    // Reseta a variável de toque
     startTouchX = null;
     track.style.cursor = 'grab';
 });
@@ -85,10 +86,19 @@ nextButton.addEventListener('click', () => {
 });
 
 
-// Inicializa e lida com redimensionamento
-moveToSlide(0);
+// ----------------------------------------------------
+// 🚨 OTIMIZAÇÃO: Inicializa após o carregamento do conteúdo
+// ----------------------------------------------------
 
-window.addEventListener('resize', () => {
-    // Garante que o carrossel se ajuste à nova largura e gap (desktop/mobile)
-    moveToSlide(currentIndex);
+document.addEventListener('DOMContentLoaded', () => {
+    // Inicializa na posição 0
+    moveToSlide(0);
+
+    // Adiciona o listener de redimensionamento
+    window.addEventListener('resize', handleResize);
+});
+
+// Remove o listener ao fechar (boa prática)
+document.addEventListener('beforeunload', () => {
+    window.removeEventListener('resize', handleResize);
 });
