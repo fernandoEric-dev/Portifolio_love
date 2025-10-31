@@ -7,10 +7,10 @@ const nextButton = document.querySelector('.carousel-button.next');
 
 let currentIndex = 0;
 // Variável de estado para rastrear o toque
-let startTouchX = 0; 
+let startTouchX = null; // Alterado para null para lógica do touchend
 
 // ----------------------------------------------------
-// Função de Movimento (MANTIDA, COM A DETECÇÃO DE GAP)
+// Função de Movimento (AJUSTADA PARA O NOVO CÁLCULO DE GAP)
 // ----------------------------------------------------
 function moveToSlide(index) {
     if (index < 0) {
@@ -21,9 +21,11 @@ function moveToSlide(index) {
         currentIndex = index;
     }
 
+    // 🚨 AJUSTE NO JS: Determinar a largura do item e o GAP
     const itemWidth = items[0].offsetWidth;
-    // Tenta detectar o gap. 40px no desktop e 20px no mobile (do seu CSS)
-    const currentGap = window.innerWidth <= 767 ? 20 : 40; 
+    
+    // No CSS, o gap é 40px no desktop (> 767px) e 0px no mobile (<= 767px)
+    const currentGap = window.innerWidth <= 767 ? 0 : 40; 
     
     // Calcula o deslocamento total (Largura do item + o gap)
     const totalMove = currentIndex * (itemWidth + currentGap); 
@@ -33,22 +35,15 @@ function moveToSlide(index) {
 
 
 // ----------------------------------------------------
-// 🚨 CORREÇÃO ROBUSTA PARA O SWIPE (Mobile)
+// Lógica do Swipe (MANTIDA - ESTÁ ROBUSTA)
 // ----------------------------------------------------
 
 // 1. Início do toque
 track.addEventListener('touchstart', (e) => {
-    // Captura a posição X inicial do toque no primeiro ponto de toque
+    // Captura a posição X inicial do toque
     startTouchX = e.touches[0].clientX;
-    // Opcional, para garantir que o scroll vertical não interrompa:
     track.style.cursor = 'grabbing';
 });
-
-// 2. Movimento do toque (opcional, para visualização, mas melhora a experiência)
-// track.addEventListener('touchmove', (e) => {
-//     if (startTouchX === null) return;
-//     // Você pode adicionar um pequeno "arrastar" visual aqui se quiser
-// });
 
 // 3. Fim do toque
 track.addEventListener('touchend', (e) => {
@@ -94,5 +89,6 @@ nextButton.addEventListener('click', () => {
 moveToSlide(0);
 
 window.addEventListener('resize', () => {
+    // Garante que o carrossel se ajuste à nova largura e gap (desktop/mobile)
     moveToSlide(currentIndex);
 });

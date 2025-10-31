@@ -52,7 +52,7 @@ h1, h2, h3 {
 }
 
 .profile-image-round {
-    /* **FOTO DE PERFIL MAIOR** */
+    /* **FOTO DE PERFIL MAIOR (MANTIDA)** */
     width: 250px; 
     height: 250px;
     border-radius: 50%;
@@ -124,9 +124,11 @@ h1, h2, h3 {
 
 .carousel-track {
     display: flex;
-    /* 🎯 AJUSTE NOVO: Adiciona espaçamento entre os slides, em vez de usar margens no item */
+    /* 🎯 DESKTOP: Adiciona espaçamento entre os slides */
     gap: 40px; 
     transition: transform 0.5s ease-in-out; /* Transição suave do slide */
+    /* 🚨 DESKTOP: Adiciona metade do gap como padding para compensar a centralização */
+    padding-left: 20px;
 }
 
 .carousel-item {
@@ -140,15 +142,16 @@ h1, h2, h3 {
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     text-align: left;
-    /* ❌ REMOVIDO: A margem lateral quebra a centralização */
     margin: 0; 
     padding: 20px;
 }
 
 .carousel-item img {
-    width: 45%; /* Imagem ocupa 45% do item */
+    /* 🚨 MODIFICADO: Imagem ocupa 40% do item */
+    width: 40%; 
     height: auto;
-    max-height: 400px;
+    /* 🚨 MODIFICADO: Altura máxima reduzida */
+    max-height: 350px; 
     object-fit: cover;
     border-radius: 8px;
     margin-right: 5%; /* Espaço entre imagem e texto */
@@ -156,7 +159,8 @@ h1, h2, h3 {
 }
 
 .project-details {
-    width: 50%; /* Detalhes ocupam 50% do item */
+    /* 🚨 MODIFICADO: Detalhes ocupam 55% do item */
+    width: 55%; 
     padding: 10px;
 }
 
@@ -181,7 +185,7 @@ h1, h2, h3 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: rgba(163, 106, 142, 0.8); /* Cor do tema com transparência */
+    background: rgba(163, 106, 142, 0.8);
     color: var(--light-text-color);
     border: none;
     padding: 15px 10px;
@@ -209,34 +213,37 @@ h1, h2, h3 {
     .carousel-item {
         flex-direction: column; /* Empilha a imagem e a descrição */
         text-align: center;
-        /* ❌ REMOVIDO: Margem lateral desnecessária no mobile */
         margin: 10px 0;
         padding: 15px;
+        /* 🚨 CORREÇÃO CRÍTICA: Ocupa 100% da largura do contêiner do track */
+        min-width: 100%; 
     }
     
     .carousel-track {
-        /* Ajuste o gap para mobile, se desejar */
-        gap: 20px; 
+        /* 🚨 CORREÇÃO CRÍTICA: Zera o gap e padding-left no mobile para centralização perfeita */
+        gap: 0; 
+        padding-left: 0;
     }
 
     .carousel-item img {
         width: 100%;
         margin-right: 0;
         margin-bottom: 15px;
-        max-height: 300px;
+        /* Altura máxima reduzida no mobile */
+        max-height: 250px;
+        max-width: 100%;
     }
 
     .project-details {
         width: 100%;
-        /* 🎯 CORREÇÃO PARA CENTRALIZAR O CONTEÚDO DENTRO DO BLOCO DE DETALHES */
         display: flex;
         flex-direction: column;
         align-items: center; 
     }
 
     .carousel-container {
-        /* Retorna o padding lateral para os botões */
-        padding: 0 10px;
+        /* 🚨 CORREÇÃO: Remove o padding lateral para preencher a tela */
+        padding: 0;
     }
 
     .carousel-button {
@@ -246,11 +253,13 @@ h1, h2, h3 {
         bottom: 0;
         transform: none;
     }
+    /* Ajusta a posição para a borda 0 */
     .carousel-button.prev {
-        left: 10px;
+        left: 0;
     }
+    /* Ajusta a posição para a borda 0 */
     .carousel-button.next {
-        right: 10px;
+        right: 0;
     }
 }
 
