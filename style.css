@@ -11,11 +11,26 @@
     --font-body: 'Arial', sans-serif; /* Fonte de corpo limpa */
 }
 
+
+
 /* --- Reset Básico e Estilo Geral --- */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+button{
+    background-color: pink;
+    border-radius: 10px;
+
+}
+
+a{
+    font-size: 25px;
+    text-decoration: solid;
+    color: rgb(242, 242, 242);
+    font-weight: 600;
 }
 
 body {
