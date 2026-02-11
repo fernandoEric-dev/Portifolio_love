@@ -20,17 +20,26 @@
     box-sizing: border-box;
 }
 
-button{
-    background-color: pink;
-    border-radius: 10px;
 
+a {
+    font-size: 20px;
+    text-decoration: none;
+    color: rgb(249, 249, 249);
+    font-weight: 600;
+    display: table; 
+    /* RESPONSIVIDADE AQUI */
+    width: 90%;          /* Ocupa quase tudo em telas pequenas */
+    max-width: 300px;    /* Mas não passa de 300px em telas grandes */
+    margin: 10px auto 40px auto;
+    background-color: rgb(235, 130, 147);
+    padding: 15px 0;     /* Tiramos o padding lateral fixo e usamos 0 */
+    text-align: center;
+    line-height: 30px;
+    border-radius: 36px;
 }
 
-a{
-    font-size: 25px;
-    text-decoration: solid;
-    color: rgb(242, 242, 242);
-    font-weight: 600;
+a:hover{
+    background-color: rgb(223, 0, 126);
 }
 
 body {
