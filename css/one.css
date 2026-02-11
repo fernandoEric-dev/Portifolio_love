@@ -1,21 +1,25 @@
+
 body{
     background-color:bisque;
-
 }
 
 h1{
     color: rgb(91, 87, 87);
+    font-family: 'Courier New', Courier, monospace;
 }
 
 nav{
     color: black;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+     width: 400px;
 }
 
 img{
     width: 400px;
 }
 
-nav{
-    width: 400px;
+
+footer{
+    text-align: center;
+    font-size: 18px;
 }
