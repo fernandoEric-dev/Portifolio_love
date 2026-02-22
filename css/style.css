@@ -2,7 +2,7 @@
 
 /* --- Variáveis de Cores e Tipografia --- */
 :root {
-    --primary-color: #A36A8E; /* Rosa Suave/Malva - Principal */
+    --primary-color: rgba(163, 106, 142, 0.8); /* Rosa Suave/Malva - Principal */
     --secondary-color: #F8E8E8; /* Rosa Claro/Pó - Fundo */
     --accent-color: #D4B483; /* Ouro Rosa/Bege Suave - Destaque */
     --text-color: #333333; /* Texto Principal Escuro */
@@ -57,7 +57,7 @@ h1, h2, h3 {
 
 /* --- 1. Seção de Cabeçalho (Hero) --- */
 .hero-section {
-    background: linear-gradient(135deg, var(--secondary-color) 0%, #f7f3f4 100%);
+    background-color: #000000;
     padding: 60px 5% 40px;
     text-align: center;
     border-bottom: 5px solid var(--accent-color);
@@ -84,18 +84,20 @@ h1, h2, h3 {
     border: 6px solid var(--primary-color);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
+.about-text{
+    color: #fff;
+}
 .about-text h1 {
     font-size: 2.8em;
     margin-bottom: 0.1em;
-    color: var(--text-color); /* Nome em cor mais forte */
+    color: white; /* Nome em cor mais forte */
     /* **TEXT-SHADOW ADICIONADO AQUI** */
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7); 
 }
 
 .about-text .subtitle {
     font-size: 1.2em;
-    color: var(--primary-color);
+    color: white;
     margin-bottom: 1em;
     font-style: italic;
 }
@@ -290,7 +292,7 @@ h1, h2, h3 {
 
 /* --- 3. Rodapé (Contato e Social) --- */
 .contact-social-section {
-    background-color: var(--primary-color);
+    background-color: black;
     color: var(--light-text-color);
     text-align: center;
     padding: 40px 20px;
