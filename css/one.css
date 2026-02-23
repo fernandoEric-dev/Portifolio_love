@@ -1,38 +1,74 @@
+/* Reset e Base */
 
-body{
-    background-color: rgb(0, 0, 0);
-}
-
-h1{
-    color: white;
-    font-family: 'Courier New', Courier, monospace;
-} 
-
-h2{
-    color: white;
-}
-
-p{
+body {
+    background-color: rgb(10, 10, 10);
     color: #ffffff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
 }
 
-a{
-    color: white;
-
+/* Títulos */
+h1 {
+    font-family: 'Courier New', Courier, monospace;
+    border-left: 6px solid rgb(235, 130, 147);
+    padding-left: 15px;
+    text-transform: uppercase;
 }
 
-nav{
-    color: white;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-     width: 400px;
+.punk-highlight {
+    color: rgb(0, 0, 0);
+    font-family: 'Franklin Gothic Medium', sans-serif;
+    background-color: white;
+    font-size: 32px;
 }
 
-img{
-    width: 400px;
+h2 {
+    color: rgb(235, 130, 147);
+    font-family: 'Courier New', Courier, monospace;
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    margin-top: 40px;
 }
 
+/* Galeria Responsiva */
+.galeria {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+    margin: 20px 0;
+}
 
-footer{
+img {
+    width: 100%;
+    max-width: 350px; /* Ajuste esse valor se quiser que elas fiquem maiores na linha */
+    object-fit: contain; 
+    border-radius: 4px;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+img:hover {
+    transform: scale(1.03);
+    filter: grayscale(0%);
+}
+
+/* Texto e Rodapé */
+p {
+    color: #cccccc;
+    max-width: 800px;
+}
+
+footer {
     text-align: center;
-    font-size: 18px;
+    padding: 40px 0;
+    font-size: 14px;
+    color: #666;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #333;
 }
